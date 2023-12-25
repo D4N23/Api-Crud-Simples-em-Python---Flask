@@ -1,4 +1,8 @@
 from flask import Flask, request
+import os
+from src.auth import auth
+from src.bookmarks import bookmarks
+
 
 def create_app(test_config=None):
     
@@ -7,18 +11,13 @@ def create_app(test_config=None):
     if test_config is None:
         
         app.config.from_mapping(
-            SECRET_KEY="dev",
+            SECRET_KEY=os.environ.get("SECRET_KEY"),
             
         )
     else:
         app.config.from_mapping(test_config) 
+     
+    app.register_blueprint(auth)
+    app.register_blueprint(bookmarks) 
         
-    @app.route('/')
-    def home():
-        return ("Help me please")
-
-    @app.get('/hello')
-    def say_hello():
-        return {"message":"Help me please"}  
-    
     return app    
