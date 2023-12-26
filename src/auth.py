@@ -45,7 +45,8 @@ def register():
             'username': username,'email': email
         }
     }),HTTP_201_CREATED
-    
+
+#Login Obtendo o JWT token    
 @auth.post('/login')
 def login():
     email = request.json.get('email','')
@@ -71,7 +72,7 @@ def login():
     
     return jsonify({'error': 'Wrong credentials'}), HTTP_401_UNAUTHORIZED
 
-
+#Acesso  as informações do usuario usando o access token
 @auth.get("/me")
 @jwt_required()
 def me():
@@ -82,4 +83,12 @@ def me():
         'email': user.email
         }), HTTP_200_OK
 
+@auth.get('/token/refresh')
+@jwt_required(refresh=True)
+def refresh_users_token():
+    identity = get_jwt_identity()
+    access = create_access_token(identity=identity)
 
+    return jsonify({
+        'access':access
+    }), HTTP_200_OK

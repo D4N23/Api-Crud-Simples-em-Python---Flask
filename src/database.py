@@ -1,5 +1,6 @@
 from datetime import datetime
 from enum import unique
+from os import link
 from flask_sqlalchemy import SQLAlchemy
 import string
 import random
@@ -32,6 +33,8 @@ class Bookmark(db.Model):
       def generate_short_caracters(self):
           characters = string.digits+string.ascii_letters
           picked_chars = ''.join(random.choices(characters, k=3))
+          
+          link = self.query.filter_by(short_url=picked_chars).first()
           
           if link:
               self.generate_short_caracters()
