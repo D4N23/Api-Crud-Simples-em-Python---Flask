@@ -46,7 +46,7 @@ def create_app(test_config=None):
         return jsonify({'error': 'Not Found'}), HTTP_404_NOT_FOUND   
     
     
-    @app.error_handler(HTTP_500_INTERNAL_SERVER_ERROR)
+    @app.errorhandler(HTTP_500_INTERNAL_SERVER_ERROR)
     def handle_500(e):
         return jsonify({'error': 'Something went wrong, we are working on it'}), HTTP_500_INTERNAL_SERVER_ERROR
         
